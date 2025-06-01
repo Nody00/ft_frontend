@@ -1,0 +1,49 @@
+<div class="container">
+  <form class="form" (submit)="onSubmit($event)">
+    <h3>Login</h3>
+    <mat-form-field appearance="outline" class="fieldContainer">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        placeholder="Enter email..."
+        type="email"
+        (blur)="onBlurEmail()"
+        required
+        [formControl]="email"
+      />
+      <mat-icon matSuffix>email</mat-icon>
+
+      @if (email.invalid){
+      <mat-error>{{emailError()}}</mat-error>
+      }
+    </mat-form-field>
+    <!--  -->
+
+    <mat-form-field appearance="outline" class="fieldContainer">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        placeholder="Enter password..."
+        [type]="showPassword() ? 'text':'password'"
+        class="input"
+        required
+        [formControl]="password"
+        (blur)="onBlurPassword()"
+      />
+
+      <mat-icon matSuffix (click)="togglePassword($event)"
+        >{{ showPassword() ? 'visibility':"visibility_off" }}</mat-icon
+      >
+
+      @if (password.invalid){
+      <mat-error>{{passwordError()}}</mat-error>
+      }
+    </mat-form-field>
+
+    <button type="submit" matButton="filled" class="button">Login</button>
+
+    <p class="error">
+      {{formError() ? "Email or password are not valid, please try again":""}}
+    </p>
+  </form>
+</div>
