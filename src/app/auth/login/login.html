@@ -13,7 +13,7 @@
       />
       <mat-icon matSuffix>email</mat-icon>
 
-      @if (email.invalid){
+      @if (emailError()){
       <mat-error>{{emailError()}}</mat-error>
       }
     </mat-form-field>
@@ -35,7 +35,7 @@
         >{{ showPassword() ? 'visibility':"visibility_off" }}</mat-icon
       >
 
-      @if (password.invalid){
+      @if (passwordError()){
       <mat-error>{{passwordError()}}</mat-error>
       }
     </mat-form-field>

@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { HttpClient } from '@angular/common/http';
   ],
 })
 export class Login {
+  authService = inject(AuthService);
   httpClient = inject(HttpClient);
   showPassword = signal(false);
   readonly email = new FormControl('', [Validators.required, Validators.email]);
@@ -72,25 +74,21 @@ export class Login {
 
   onSubmit(event: SubmitEvent) {
     event.preventDefault();
-    console.log('dinov log email', this.email.value);
-    console.log('dinov log password', this.password.value);
 
-    this.httpClient
-      .post('http://localhost:3000/auth/sign-in', {
-        email: this.email.value,
-        password: this.password.value,
-      })
-      .subscribe({
-        next: (response) => {
-          // access_token
-          console.log('dinov log response', response);
+    if (this.email.value && this.password.value) {
+      this.authService.login(this.email.value, this.password.value).subscribe({
+        next: () => {
+          console.log('Login sucessfull!');
         },
-        error: (error) => {
-          console.error(error);
+        error: (err) => {
+          console.error('Login component error:', err);
+          this.emailError.set('Invalid email');
+          this.passwordError.set('Invalid password');
+          this.email.reset();
+          this.password.reset();
           this.formError.set(true);
-          this.emailError.set('Invalid email!');
-          this.passwordError.set('Invalid password!');
         },
       });
+    }
   }
 }
