@@ -84,7 +84,6 @@ export class Login {
           console.error('Login component error:', err);
           this.emailError.set('Invalid email');
           this.passwordError.set('Invalid password');
-          this.email.reset();
           this.password.reset();
           this.formError.set(true);
         },
